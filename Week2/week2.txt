@@ -1,0 +1,73 @@
+    1. Write a CREATE TABLE statement for the Customer table. Choose data types appropriate using standard SQL data types where possible. Note that the CustBal column contains numeric data. The currency symbols are not stored in the database. The CustFirstName and CustLastName columns are required (not null).
+
+CREATE TABLE Customer
+( CustNo 	CHAR(8),
+  CustFirstName	VARCHAR(20) NOT NULL,
+  CustLastName	VARCHAR(30) NOT NULL,
+  CustCity      VARCHAR(30),
+  CustState	CHAR(2),
+  CustZip	CHAR(10),
+  CustBal	DECIMAL(12,2),
+ CONSTRAINT PKCustomer PRIMARY KEY (CustNo));
+ 
+    2. Write a CREATE TABLE statement for the Employee table. Choose data types appropriate using standard SQL data types where possible. The EmpFirstName, EmpLastName, and EmpEMail columns are required (not null).
+
+CREATE TABLE Employee
+    (EmpNo 	 CHAR(8),
+     EmpFirstName VARCHAR(20) NOT NULL,
+     EmpLastName VARCHAR(30) NOT NULL,
+     EmpPhone    CHAR(15),
+     EmpEMail    VARCHAR(50) NOT NULL,
+CONSTRAINT PKEmployee PRIMARY KEY (EmpNo));
+
+    3. Write a CREATE TABLE statement for the OrderTbl table. Choose data types appropriate using standard SQL data types where possible. The OrdDate column is required (not null).
+
+CREATE TABLE OrderTbl
+ ( OrdNo 	CHAR(8),
+   OrdDate	DATE NOT NULL,
+   CustNo	CHAR(8),
+   EmpNo	CHAR(8),
+CONSTRAINT PKOrder PRIMARY KEY (OrdNo));
+
+    4. Identify the foreign keys and 1-M relationships among the Customer, Employee, and OrderTbl tables. For each relationship, identify the parent table and the child table.
+
+There are two 1-M relationships: (1) Customer (CustNo PK) – OrderTbl (CustNo FK) and (2) Employee (EmpNo PK) – OrderTbl (EmpNo FK). 
+
+    5. Extend your CREATE TABLE statement from problem (3) with referential integrity constraints.
+
+CREATE TABLE OrderTbl
+  ( OrdNo 	CHAR(8),
+    OrdDate	DATE NOT NULL,
+    CustNo	CHAR(8),
+    EmpNo	CHAR(8),
+CONSTRAINT PKOrderTbl PRIMARY KEY (OrdNo) ,
+CONSTRAINT FKCustNo FOREIGN KEY (CustNo) REFERENCES Customer (CustNo),
+CONSTRAINT FKEmpNo FOREIGN KEY (EmpNo) REFERENCES Employee (EmpNo));
+
+    6. From examination of the sample data and your common understanding of order entry businesses, are null values allowed for the foreign keys in the OrderTbl table?  Why or why not? Extend the CREATE TABLE statement in problem (5) to enforce the null value constraints if any.
+
+No, Null Values are not allowed in CustNo column of OrderTbl
+
+CREATE TABLE OrderTbl
+  ( OrdNo 	CHAR(8),
+    OrdDate	DATE NOT NULL,
+    CustNo      CHAR(8) NOT NULL,
+    EmpNo	CHAR(8),
+CONSTRAINT PKOrderTbl PRIMARY KEY (OrdNo) ,
+CONSTRAINT FKCustNo FOREIGN KEY (CustNo) REFERENCES Customer (CustNo),
+CONSTRAINT FKEmpNo FOREIGN KEY (EmpNo) REFERENCES Employee (EmpNo)
+  )
+
+    7. Extend your CREATE TABLE statement for the Employee table (problem 2) with a unique constraint for EmpEMail. Use a named constraint clause for the unique constraint.
+
+CREATE TABLE Employee
+   ( EmpNo 	  CHAR(8),
+     EmpFirstName VARCHAR(20) NOT NULL,
+     EmpLastName  VARCHAR(30) NOT NULL,
+     EmpPhone     CHAR(15),
+     EmpEMail     VARCHAR(50) NOT NULL UNIQUE,
+CONSTRAINT PKEmployee PRIMARY KEY (EmpNo)
+)
+
+
+
